@@ -16,6 +16,7 @@ namespace TowerOfHanoiGame
         private const double BaseLineHeight = 5;  // Height of the base line
         private readonly List<Color> diskColors = new List<Color> { Colors.Red, Colors.Blue, Colors.Green, Colors.Yellow, Colors.Purple, Colors.Orange, Colors.Pink, Colors.Brown, Colors.Cyan, Colors.Magenta };
         private CancellationTokenSource? cancellationTokenSource;
+        private int moveDelay = 500; // Default speed
 
         public MainWindow()
         {
@@ -128,7 +129,7 @@ namespace TowerOfHanoiGame
                 Canvas.SetTop(disk, topPosition);  // Align from the bottom
             });
 
-            await Task.Delay(20);  // Pause for animation effect
+            await Task.Delay(moveDelay);  // Use adjustable delay
         }
 
 
@@ -154,5 +155,10 @@ namespace TowerOfHanoiGame
             cancellationTokenSource?.Cancel();  // Cancel the ongoing recursive task
         }
 
+        private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            moveDelay = (int)e.NewValue;
+            SpeedLabel.Content = $"Speed: {moveDelay} ms";
+        }
     }
 }

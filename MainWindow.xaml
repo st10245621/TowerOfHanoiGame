@@ -46,6 +46,11 @@
             <Button Content="Start" Click="StartButton_Click" FontSize="16" Margin="10,5" FontWeight="Bold"/>
             <Button Content="Pause" Click="PauseButton_Click" FontSize="16" Margin="10,5" FontWeight="Bold"/>
 
+            <!-- Speed Adjustment -->
+            <Label x:Name="SpeedLabel" Content="Speed: 500 ms" FontSize="16" Margin="5" FontWeight="Bold"/>
+            <Slider x:Name="SpeedSlider" Minimum="20" Maximum="1000" Value="500" Width="150" Margin="5" 
+            ValueChanged="SpeedSlider_ValueChanged" IsDirectionReversed="True"/>
+
         </StackPanel>
     </Grid>
 </Window>
