@@ -106,31 +106,31 @@ namespace TowerOfHanoiGame
 
         // Animate the movement of a disk from one rod to another
         private async Task MoveDisk(int from, int to, CancellationToken cancellationToken)
-        {
-            if (cancellationToken.IsCancellationRequested)
-                return;
+{
+    if (cancellationToken.IsCancellationRequested)
+        return;
 
-            var disk = rods[from].Pop();
-            rods[to].Push(disk);
+    var disk = rods[from].Pop();
+    rods[to].Push(disk);
 
-            await Dispatcher.InvokeAsync(() =>
-            {
-                Canvas fromRod = GetRod(from);
-                Canvas toRod = GetRod(to);
+    await Dispatcher.InvokeAsync(() =>
+    {
+        Canvas fromRod = GetRod(from);
+        Canvas toRod = GetRod(to);
 
-                fromRod.Children.Remove(disk);
-                toRod.Children.Add(disk);
+        fromRod.Children.Remove(disk);
+        toRod.Children.Add(disk);
 
-                // Calculate the new top position, respecting the base line height
-                double rodHeight = toRod.ActualHeight - BaseLineHeight;
-                double topPosition = rodHeight - (toRod.Children.Count) * disk.Height + BaseLineHeight;
+        // Calculate the new top position, respecting the base line height
+        double rodHeight = toRod.ActualHeight - BaseLineHeight;
+        double topPosition = rodHeight - (toRod.Children.Count) * disk.Height + BaseLineHeight;
 
-                Canvas.SetLeft(disk, (toRod.ActualWidth - disk.Width) / 2);  // Center horizontally
-                Canvas.SetTop(disk, topPosition);  // Align from the bottom
-            });
+        Canvas.SetLeft(disk, (toRod.ActualWidth - disk.Width) / 2);  // Center horizontally
+        Canvas.SetTop(disk, topPosition);  // Align from the bottom
+    });
 
-            await Task.Delay(moveDelay);  // Use adjustable delay
-        }
+    await Task.Delay(moveDelay);  // Use adjustable delay
+}
 
 
         // Get the Canvas corresponding to a rod index

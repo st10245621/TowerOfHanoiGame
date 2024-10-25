@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TowerOfHanoiGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b11790c891e6db351046d987c5b45ab711fa8116")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8460149af11319712fdc011bee16ed18ddc5fbf1")]
 [assembly: System.Reflection.AssemblyProductAttribute("TowerOfHanoiGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TowerOfHanoiGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
