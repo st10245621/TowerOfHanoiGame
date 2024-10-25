@@ -17,3 +17,4 @@ C:\Users\Gerard\TowerOfHanoiGame\obj\Debug\net8.0-windows\refint\TowerOfHanoiGam
 C:\Users\Gerard\TowerOfHanoiGame\obj\Debug\net8.0-windows\TowerOfHanoiGame.pdb
 C:\Users\Gerard\TowerOfHanoiGame\obj\Debug\net8.0-windows\TowerOfHanoiGame.genruntimeconfig.cache
 C:\Users\Gerard\TowerOfHanoiGame\obj\Debug\net8.0-windows\ref\TowerOfHanoiGame.dll
+C:\Users\Gerard\TowerOfHanoiGame\obj\Debug\net8.0-windows\TowerOfHanoiGame.sourcelink.json
