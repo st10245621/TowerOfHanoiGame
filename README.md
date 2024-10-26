@@ -11,7 +11,7 @@ https://github.com/user-attachments/assets/16fef516-0622-4dd3-a0f3-42f064499f6d
 ---
 ## 📂 Project Structure
 
-Here’s the structure of the **Tower of Hanoi Game** project based on your setup:
+Here’s the structure of the **Tower of Hanoi Game** project:
 
 ```
 TowerOfHanoiGame/
