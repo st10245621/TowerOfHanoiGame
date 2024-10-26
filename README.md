@@ -6,7 +6,8 @@ A **WPF-based Tower of Hanoi** implementation that plays the game automatically 
 
 ## 🎥 Towers Of Hanoi Game Demo
 
-https://github.com/user-attachments/assets/5626d92b-27f3-4b89-aede-b4d206a26022
+
+https://github.com/user-attachments/assets/26b717fb-e580-443a-82e2-cc70981a04e9
 
 
 ---
