@@ -9,22 +9,29 @@ using System.Windows.Shapes;
 
 namespace TowerOfHanoiGame
 {
+    // Represents the main window of the Tower of Hanoi game, managing the UI components and game logic.
     public partial class MainWindow : Window
     {
         private int diskCount;
         private List<Stack<Rectangle>> rods = new List<Stack<Rectangle>>();
-        private const double BaseLineHeight = 5;  // Height of the base line
-        private readonly List<Color> diskColors = new List<Color> { Colors.Red, Colors.Blue, Colors.Green, Colors.Yellow, Colors.Purple, Colors.Orange, Colors.Pink, Colors.Brown, Colors.Cyan, Colors.Magenta };
+        private const double BaseLineHeight = 5;  
+        private readonly List<Color> diskColors = new List<Color> 
+        { 
+            Colors.Red, Colors.Blue, Colors.Green, Colors.Yellow, 
+            Colors.Purple, Colors.Orange, Colors.Pink, Colors.Brown, 
+            Colors.Cyan, Colors.Magenta 
+        };
         private CancellationTokenSource? cancellationTokenSource;
-        private int moveDelay = 500; // Default speed
+        private int moveDelay = 500;  // Default speed
 
+        // Initializes the main window and sets up the rods.
         public MainWindow()
         {
             InitializeComponent();
             InitializeRods();
         }
 
-        // Initialize the 3 rods as stacks to hold the disks
+        // Initializes the 3 rods as stacks to hold the disks.
         private void InitializeRods()
         {
             rods.Add(new Stack<Rectangle>());
@@ -32,10 +39,10 @@ namespace TowerOfHanoiGame
             rods.Add(new Stack<Rectangle>());
         }
 
-        // Handle the Start button click event
+        // Handles the Start button click event to start a new game.
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            cancellationTokenSource = new CancellationTokenSource(); // Create new token source for each start
+            cancellationTokenSource = new CancellationTokenSource();
 
             if (int.TryParse(DiskInput.Text, out diskCount) && diskCount >= 4 && diskCount <= 10)
             {
@@ -49,23 +56,24 @@ namespace TowerOfHanoiGame
             }
         }
 
-
-        // Clear all rods and reset the game state
+        // Clears all rods and resets the game state.
         private void ResetGame()
         {
             RodA.Children.Clear();
             RodB.Children.Clear();
             RodC.Children.Clear();
-            foreach (var rod in rods) rod.Clear();
+
+            foreach (var rod in rods) 
+                rod.Clear();
         }
 
-        // Create the disks and add them to the first rod (RodA)
+        // Creates the disks and adds them to the first rod (RodA).
         private void CreateDisks(int count)
         {
-            double rodHeight = RodA.ActualHeight - BaseLineHeight;  // Adjust rod height to consider the base line
-            double diskHeight = Math.Min(rodHeight / count, 40);  // Limit max disk height to 40
-            double minWidth = 30;  // Minimum width of the smallest disk
-            double maxWidth = RodA.ActualWidth - 20;  // Maximum width of the largest disk
+            double rodHeight = RodA.ActualHeight - BaseLineHeight;
+            double diskHeight = Math.Min(rodHeight / count, 40);
+            double minWidth = 30;
+            double maxWidth = RodA.ActualWidth - 20;
 
             for (int i = count; i >= 1; i--)
             {
@@ -75,65 +83,63 @@ namespace TowerOfHanoiGame
                 {
                     Width = diskWidth,
                     Height = diskHeight,
-                    Fill = new SolidColorBrush(diskColors[i - 1]),  // Set color from predefined list
-                    Stroke = new SolidColorBrush(Colors.Black),  // Black outline
-                    StrokeThickness = 2,  // Thickness of the outline
+                    Fill = new SolidColorBrush(diskColors[i - 1]),
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    StrokeThickness = 2,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
                 rods[0].Push(disk);
                 RodA.Children.Add(disk);
 
-                // Calculate position to stack from the bottom and respect the base line height
                 double topPosition = rodHeight - (count - i + 1) * diskHeight + BaseLineHeight;
-                Canvas.SetLeft(disk, (RodA.ActualWidth - disk.Width) / 2);  // Center horizontally
-                Canvas.SetTop(disk, topPosition);  // Align from the bottom
+                Canvas.SetLeft(disk, (RodA.ActualWidth - disk.Width) / 2);
+                Canvas.SetTop(disk, topPosition);
             }
         }
 
-        // Recursive method to solve the Tower of Hanoi
+        // Solves the Tower of Hanoi puzzle using recursion.
         private async Task TowerOfHanoi(int n, int from, int to, int aux, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
                 return;
 
-            if (n == 0) return;
+            if (n == 0) 
+                return;
 
             await TowerOfHanoi(n - 1, from, aux, to, cancellationToken);
             await MoveDisk(from, to, cancellationToken);
             await TowerOfHanoi(n - 1, aux, to, from, cancellationToken);
         }
 
-        // Animate the movement of a disk from one rod to another
+        // Animates the movement of a disk from one rod to another.
         private async Task MoveDisk(int from, int to, CancellationToken cancellationToken)
-{
-    if (cancellationToken.IsCancellationRequested)
-        return;
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return;
 
-    var disk = rods[from].Pop();
-    rods[to].Push(disk);
+            var disk = rods[from].Pop();
+            rods[to].Push(disk);
 
-    await Dispatcher.InvokeAsync(() =>
-    {
-        Canvas fromRod = GetRod(from);
-        Canvas toRod = GetRod(to);
+            await Dispatcher.InvokeAsync(() =>
+            {
+                Canvas fromRod = GetRod(from);
+                Canvas toRod = GetRod(to);
 
-        fromRod.Children.Remove(disk);
-        toRod.Children.Add(disk);
+                fromRod.Children.Remove(disk);
+                toRod.Children.Add(disk);
 
-        // Calculate the new top position, respecting the base line height
-        double rodHeight = toRod.ActualHeight - BaseLineHeight;
-        double topPosition = rodHeight - (toRod.Children.Count) * disk.Height + BaseLineHeight;
+                double rodHeight = toRod.ActualHeight - BaseLineHeight;
+                double topPosition = rodHeight - (toRod.Children.Count) * disk.Height + BaseLineHeight;
 
-        Canvas.SetLeft(disk, (toRod.ActualWidth - disk.Width) / 2);  // Center horizontally
-        Canvas.SetTop(disk, topPosition);  // Align from the bottom
-    });
+                Canvas.SetLeft(disk, (toRod.ActualWidth - disk.Width) / 2);
+                Canvas.SetTop(disk, topPosition);
+            });
 
-    await Task.Delay(moveDelay);  // Use adjustable delay
-}
+            await Task.Delay(moveDelay);
+        }
 
-
-        // Get the Canvas corresponding to a rod index
+        // Returns the Canvas corresponding to the specified rod index.
         private Canvas GetRod(int rodIndex)
         {
             return rodIndex switch
@@ -145,16 +151,16 @@ namespace TowerOfHanoiGame
             };
         }
 
-        private void DiskInput_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        // Handles text input changes in the disk input field.
+        private void DiskInput_TextChanged(object sender, TextChangedEventArgs e) { }
 
-        }
-
+        // Handles the Pause button click event to cancel the ongoing task.
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            cancellationTokenSource?.Cancel();  // Cancel the ongoing recursive task
+            cancellationTokenSource?.Cancel();
         }
 
+        // Adjusts the speed of the disk movement based on the slider value.
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             moveDelay = (int)e.NewValue;
